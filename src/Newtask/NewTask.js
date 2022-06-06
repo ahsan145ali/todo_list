@@ -1,5 +1,6 @@
 import React , {useState} from 'react'
 import './NewTask.css';
+import { TextField , Input } from '@material-ui/core';
 const NewTask = ({ NewTaskHandler}) => {
     const [enteredID,setEnteredID] = useState('');
     const [enteredTask,setEnteredTask] = useState('');
@@ -30,11 +31,10 @@ const NewTask = ({ NewTaskHandler}) => {
     <div>
       <div className ='Add_form' >
                 <form className='form' onSubmit={SubmitHandler}>
-                   
                     <input type="number" placeholder ='Enter ID' onChange={IDChangeHandler} required ></input>
-                    <input type="texxt" placeholder ='Enter Task Name' onChange={TaskChangeHandler} required></input>
+                    <input type="text" placeholder ='Enter Task Name' onChange={TaskChangeHandler} required></input>
                     <input type="date" placeholder ='Enter Date' onChange={DateChangeHandler} required></input>
-                    <button type="submit">ADD</button>
+                     <button type="submit">ADD</button>
                 </form>
             </div>
     </div>

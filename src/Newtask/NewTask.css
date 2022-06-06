@@ -1,0 +1,10 @@
+.form input{
+
+    margin-left: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+.form button{
+    margin-left: 10px;
+    border-radius: 3px;
+}

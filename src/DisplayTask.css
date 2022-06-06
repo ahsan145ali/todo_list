@@ -1,5 +1,15 @@
 .task{
-    background-color: rgb(35, 35, 35);
+   /* background-color: rgb(35, 35, 35);*/
     height: 100px;
-    color: whitesmoke;
+    color: rgb(0, 0, 0);
+    margin-top: 10px;
+    
+}
+
+.root{
+    min-width: 100;
+}
+.cardContent{
+    display: flex;
+    justify-content: space-between;
 }
