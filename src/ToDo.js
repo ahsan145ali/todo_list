@@ -3,39 +3,25 @@ import React, { useState } from 'react'
 import './ToDo.css';
 import DisplayTask from './DisplayTask';
 import NewTask from './Newtask/NewTask';
-const ToDoList = [
-    {   
-        id : '1',
-        task: 'test',
-        date: new Date(2020, 7, 14),
-    },
-    {   
-        id:'2',
-        task: 'test2',
-        date: new Date(2020, 6, 14),
-    },
-]
 
 const ToDo = () => {
     
-    const [AddTask , setAddTask] = useState(0);
-    const ChangeState = () => {
-       setAddTask(0);
-    }
-    const handleAddTask =  (event) =>{
-        event.preventDefault();
-        setAddTask(1);
-        console.log(AddTask);
-    }
+    const [ToDoList , setToDoList] = useState([
+      
+    ]);
+    //setToDoList(temp);
+
+
 
     const NewTaskHandler = (newtask) =>{
-        ToDoList.push(newtask);
-        window.alert('New Task Added');
+        setToDoList(oldData => [...oldData,newtask]);
+       // window.alert('New Task Added');
+        console.log(ToDoList);
     }
 
   return (
     <div className='MAIN'>
-        <button onClick={handleAddTask}>Add New Task</button>
+        <NewTask NewTaskHandler = {NewTaskHandler}/>
       <div className='Tasks'>
         {ToDoList.map((TASK)=>(
             <div key={TASK.id} className="Display">
@@ -44,10 +30,6 @@ const ToDo = () => {
            </div>
         ))}
       </div>
-      {AddTask == 1 ? 
-      
-        <NewTask ChangeState = {ChangeState} NewTaskHandler = {NewTaskHandler}/>
-       : null}
     </div>
   )
 }
