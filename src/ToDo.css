@@ -3,15 +3,24 @@
     margin: 0;
 }
 .MAIN{
-   /* background-color: rgb(0, 0, 0);*/
     height: 800px;
+    margin-top: 4%;
 }
+.NewTask{
+
+    background-color: rgb(86, 99, 194);
+    height: 50px;
+    text-align: center;
+    padding-top: 20px;
+}
+
 .Tasks{
     width: 80%;
     margin-left: 10%;
+    
 }
 
 .Display{
     text-align: center;
-   
 }
+

@@ -1,29 +1,31 @@
 import React , {useState} from 'react'
 import './NewTask.css';
-import { TextField , Input } from '@material-ui/core';
-const NewTask = ({ NewTaskHandler}) => {
-    const [enteredID,setEnteredID] = useState('');
-    const [enteredTask,setEnteredTask] = useState('');
-    const [enteredDate,setEnteredDate] = useState('');
+import uuid from 'react-uuid';
 
+
+const NewTask = ({ NewTaskHandler}) => {
+    
   
-    const IDChangeHandler = (event) => { setEnteredID(event.target.value);}
+    const [enteredTask,setEnteredTask] = useState('');
+    const [enteredDesc,setenteredDesc] = useState('');
+
     const TaskChangeHandler = (event) => { setEnteredTask(event.target.value);}
-    const DateChangeHandler = (event) => { setEnteredDate(event.target.value);}
+    const DescChangeHandler = (event) => { setenteredDesc(event.target.value);}
 
     const SubmitHandler = (event) => {
         event.preventDefault();
 
         const newTask = {
-            id : enteredID,
+            id : uuid(),
             task : enteredTask,
-            date : new Date(enteredDate)
-        };
+            desc: enteredDesc,
+            date:Date.now()
 
+        };
+        
         NewTaskHandler(newTask);
-        setEnteredID('');
         setEnteredTask('');
-        setEnteredTask('');
+        setenteredDesc('')
     }
 
   return (
@@ -31,10 +33,9 @@ const NewTask = ({ NewTaskHandler}) => {
     <div>
       <div className ='Add_form' >
                 <form className='form' onSubmit={SubmitHandler}>
-                    <input type="number" placeholder ='Enter ID' onChange={IDChangeHandler} required ></input>
-                    <input type="text" placeholder ='Enter Task Name' onChange={TaskChangeHandler} required></input>
-                    <input type="date" placeholder ='Enter Date' onChange={DateChangeHandler} required></input>
-                     <button type="submit">ADD</button>
+                    <input type="text" placeholder ='Enter Task Name' onChange={TaskChangeHandler} value = {enteredTask} required></input>
+                    <input type="text" placeholder ='Enter Description' onChange={DescChangeHandler} value = {enteredDesc} required></input>
+                     <button  on type="submit">ADD</button>
                 </form>
             </div>
     </div>
