@@ -3,10 +3,13 @@ import { Paper } from '@material-ui/core'
 import './ToDo.css';
 import DisplayTask from './DisplayTask';
 import NewTask from './Newtask/NewTask';
+import { useSelector,useDispatch } from 'react-redux';
 
 const ToDo = () => {
-    
-    const [ToDoList , setToDoList] = useState([
+    const dispatch = useDispatch();
+   const ToDoList = useSelector( state => state.todos ); // from Redux Store
+   
+   /*const [ToDoList , setToDoList] = useState([
       {
             id : 1,
             task : 'Test Task',
@@ -14,22 +17,12 @@ const ToDo = () => {
             date: Date.now()
 
       }
-    ]);
+    ]);*/
 
     const NewTaskHandler = (newtask) =>{
-        setToDoList(oldData => [...oldData,newtask]);
-        window.localStorage.setItem('ToDoList', JSON.stringify(ToDoList));
+        //setToDoList(oldData => [...oldData,newtask]);
+        dispatch({type:'addTask' , obj:newtask});
     }
-
-
-
-    useEffect(() => {
-      
-      const list = JSON.parse(window.localStorage.getItem('ToDoList'));
-      if (list) {
-       setToDoList(list);
-      }
-    }, []);
 
   return (
     <div className='MAIN'>
