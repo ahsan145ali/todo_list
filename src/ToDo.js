@@ -4,11 +4,13 @@ import './ToDo.css';
 import DisplayTask from './DisplayTask';
 import NewTask from './Newtask/NewTask';
 import { useSelector,useDispatch } from 'react-redux';
-
+import Axios from "axios";
 const ToDo = () => {
    
    const dispatch = useDispatch();
    const ToDoList = useSelector( state => state.todos ); // from Redux Store
+
+   const [loading,setloading]  = useState(false);
    
    /*const [ToDoList , setToDoList] = useState([
       {
@@ -20,11 +22,25 @@ const ToDo = () => {
       }
     ]);*/
 
-    const NewTaskHandler = (newtask) =>{
-        //setToDoList(oldData => [...oldData,newtask]);
+    const NewTaskHandler = async (newtask) =>{
+    
         dispatch({type:'addTask' , obj:newtask});
-    }
 
+          const url = "http://localhost:3001/";
+          setloading(true);
+         await Axios.post( url , {newTask: newtask})
+            .then( response=>{
+                  try{
+                      setloading(false);
+                  }catch(error){
+                alert(error);
+              }
+            }
+            )
+    
+        
+        
+    }
   return (
     <div className='MAIN'>
         <div className='NewTask'>
@@ -40,6 +56,7 @@ const ToDo = () => {
         ))}
         </Paper>
       </div>
+     { loading ? <h2>IS LOADING</h2> : <h2>LOADED</h2>}
     </div>
   )
 }
