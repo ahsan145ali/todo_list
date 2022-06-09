@@ -6,7 +6,8 @@ import NewTask from './Newtask/NewTask';
 import { useSelector,useDispatch } from 'react-redux';
 
 const ToDo = () => {
-    const dispatch = useDispatch();
+   
+   const dispatch = useDispatch();
    const ToDoList = useSelector( state => state.todos ); // from Redux Store
    
    /*const [ToDoList , setToDoList] = useState([
