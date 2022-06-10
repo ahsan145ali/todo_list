@@ -5,6 +5,7 @@ import DisplayTask from './DisplayTask';
 import NewTask from './Newtask/NewTask';
 import { useSelector,useDispatch } from 'react-redux';
 import Axios from "axios";
+import LoadingOverlay from 'react-loading-overlay';
 const ToDo = () => {
    
    const dispatch = useDispatch();
@@ -42,21 +43,27 @@ const ToDo = () => {
         
     }
   return (
-    <div className='MAIN'>
+    <div className='MAIN' >
         <div className='NewTask'>
         <NewTask NewTaskHandler = {NewTaskHandler}/>
         </div>
-      <div className='Tasks'>
-      <Paper  className='paper' variant="elevation" elevation={21} >
-        {[...ToDoList].reverse().map((TASK)=>(
-            <div key={TASK.id} className="Display">
-                <DisplayTask task= {TASK}/>
-                <br/> 
-           </div>
-        ))}
-        </Paper>
-      </div>
-     { loading ? <h2>IS LOADING</h2> : <h2>LOADED</h2>}
+      {loading? 
+              <div className='overlay'>
+              <LoadingOverlay active = {true} spinner text="loading" className='spinner'></LoadingOverlay>
+              </div>
+      : 
+            <div className='Tasks'>
+            <Paper  className='paper' variant="elevation" elevation={21} >
+              {[...ToDoList].reverse().map((TASK)=>(
+                  <div key={TASK.id} className="Display">
+                      <DisplayTask task= {TASK}/>
+                      <br/> 
+                  </div>
+              ))}
+              </Paper>
+            </div>}
+      {/*<LoadingOverlay active = {true} spinner text="loading"></LoadingOverlay>
+     { loading ? <h2>IS LOADING</h2> : <h2>LOADED</h2>}*/}
     </div>
   )
 }
