@@ -15,7 +15,7 @@ moongose.connect('mongodb+srv://ahsan145ali:Sherry!32@tasks.rgwve1y.mongodb.net/
                 }
 );
 
-app.post("/insert" , async (req,res) =>{ // checks if a user reaches route "/" then performs an action
+app.post("/insert" , async (req,res) =>{ // checks if a user reaches route "/insert" then performs an action
 
     const newTask = req.body.newTask;
     const Task_Data = new ToDoModel({
@@ -34,6 +34,17 @@ app.post("/insert" , async (req,res) =>{ // checks if a user reaches route "/" t
         console.log("ERROR In Insert: " + error);
     }
 })
+
+app.get("/read" , async (req,res) =>{ // checks if a user reaches route "/read" then performs an action
+
+    // we want to read everything from DB so passing {} empty object as 1 param
+    ToDoModel.find({},(err,result)=>{
+        if(err){
+            res.send(err);
+        }
+        res.send(result);
+    }) 
+}) 
 
 // 3000 here is the port of localhost which is running on 3000
 app.listen(3001 , ()=>{

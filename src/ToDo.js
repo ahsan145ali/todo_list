@@ -13,18 +13,8 @@ const ToDo = () => {
 
    const [loading,setloading]  = useState(false);
    
-   /*const [ToDoList , setToDoList] = useState([
-      {
-            id : 1,
-            task : 'Test Task',
-            desc : 'THIS IS JUST FOR TESTING',
-            date: Date.now()
-
-      }
-    ]);*/
-
     const NewTaskHandler = async (newtask) =>{
-    
+
         dispatch({type:'addTask' , obj:newtask});
 
           const url = "http://localhost:3001/insert";
@@ -38,10 +28,32 @@ const ToDo = () => {
               }
             }
             )
-    
-        
-        
     }
+    const SetToDoList = (newtask)=>{
+      dispatch({type:'addfromDB' , obj:newtask});
+    }
+
+    const FetchFromDB = async ()=>
+    {
+      const url = "http://localhost:3001/read";
+      setloading(true);
+      await Axios.get( url).then((response)=>{
+        
+            try{
+                  dispatch({type:'emptyList'});
+                  const {data} = response;
+                  Object.keys(data).forEach(function(key){SetToDoList(data[key])});
+                  setloading(false);
+            }catch(error){
+
+            }
+      })
+    }
+    useEffect( ()=>{  // read from MongoDB on first reload
+     
+      FetchFromDB();
+
+    },[])
   return (
     <div className='MAIN' >
         <div className='NewTask'>

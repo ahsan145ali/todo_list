@@ -25,6 +25,29 @@ const TaskReducer = (state = initialState, action) =>
         
      };
     }
+    else if(action.type==='addfromDB')
+    {
+        return{
+            todos : [
+                ...state.todos,
+                {
+                    id : action.obj.ID,
+                    task : action.obj.TaskName,
+                    desc : action.obj.Task_Description,
+                    date: action.obj.Date_Added
+                }
+            ]
+            
+         };
+    }
+    else if(action.type==='emptyList')
+    {
+        return{
+            todos:[
+          
+            ]
+        };
+    }
     
      return state;
 };
