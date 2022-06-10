@@ -15,7 +15,7 @@ moongose.connect('mongodb+srv://ahsan145ali:Sherry!32@tasks.rgwve1y.mongodb.net/
                 }
 );
 
-app.post("/" , async (req,res) =>{ // checks if a user reaches route "/" then performs an action
+app.post("/insert" , async (req,res) =>{ // checks if a user reaches route "/" then performs an action
 
     const newTask = req.body.newTask;
     const Task_Data = new ToDoModel({

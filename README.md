@@ -12,7 +12,7 @@ The date is set by `Date.now()` to display the time ago
 # Server
 the app server created using `express` listen to port `3001`
 can be changed in `server/index.js`
-server uses `post` method to receive data from front end
+server uses `post` on url `3001/insert` method to receive data from front end
 
 ## Available Scripts
 

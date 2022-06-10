@@ -27,7 +27,7 @@ const ToDo = () => {
     
         dispatch({type:'addTask' , obj:newtask});
 
-          const url = "http://localhost:3001/";
+          const url = "http://localhost:3001/insert";
           setloading(true);
          await Axios.post( url , {newTask: newtask})
             .then( response=>{
