@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# ToDO List
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Created with React.js
+using [react-redux] for state management
+[MongoDB] for backend
+
+# Working
+user can insert the task name and task descripton.
+the task id is Automatically by [react-uuid]
+The date is set by [Date.now()] to display the time ago
+
+# Server
+the app server created using [express] listen to port [3001]
+can be changed in [server/index.js]
+server uses [post] method to receive data from front end
 
 ## Available Scripts
 
