@@ -1,0 +1,53 @@
+.add_form{
+    /*background-color: rgb(201, 95, 95);*/
+    height: 300px;
+    margin-top: 1%;
+    width: 400px;
+    border-radius: 20px;
+    margin-left: 40%;
+}
+.u_form{
+    width: 100%;
+    padding: 10px 10px;
+    margin-left: 5%;
+    
+    
+}
+.u_form input{
+    border-radius: 20px;
+    padding: 5px 5px;
+    margin-top: 30px;
+    text-align: center;
+    width: 70%;
+    margin-top: 50px;
+}
+.u_form button{
+    margin-top: 20px;
+    width:110px;
+    height: 30px;
+    border-radius: 15px;
+    transition: all 0.3s ease 0s;
+    margin-top: 50px;
+
+}
+.u_form button:hover{
+    opacity: 0.5;
+}
+
+.decision_buttons{
+    margin-left: 40%;
+}
+
+.decision_buttons button{
+    width: 100px;
+    margin-left: 6%;
+    height: 30px;
+    background-color: rgb(108, 156, 245);
+   color: white;
+    transition: all 0.3s ease 0s;
+}
+.decision_buttons button:hover{
+
+    color: black;
+    background-color: rgb(168, 197, 249);
+}

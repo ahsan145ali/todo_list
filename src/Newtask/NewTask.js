@@ -1,11 +1,12 @@
 import React , {useState} from 'react'
 import './NewTask.css';
 import uuid from 'react-uuid';
-
+import { useSelector,useDispatch } from 'react-redux';
 
 const NewTask = ({ NewTaskHandler}) => {
     
-  
+  const current_user = useSelector( state => state.logged_user ); // from Redux Store
+
     const [enteredTask,setEnteredTask] = useState('');
     const [enteredDesc,setenteredDesc] = useState('');
 
@@ -14,12 +15,13 @@ const NewTask = ({ NewTaskHandler}) => {
 
     const SubmitHandler = (event) => {
         event.preventDefault();
-
+        console.log("Presed: " + current_user);
         const newTask = {
             id : uuid(),
             task : enteredTask,
             desc: enteredDesc,
-            date:Date.now()
+            date:Date.now(),
+            user: current_user
 
         };
         

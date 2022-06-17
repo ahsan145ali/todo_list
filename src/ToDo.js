@@ -6,10 +6,14 @@ import NewTask from './Newtask/NewTask';
 import { useSelector,useDispatch } from 'react-redux';
 import Axios from "axios";
 import LoadingOverlay from 'react-loading-overlay';
+import {Link , useNavigate   } from 'react-router-dom';
 const ToDo = () => {
    
    const dispatch = useDispatch();
+   const navigate = useNavigate();
+
    const ToDoList = useSelector( state => state.todos ); // from Redux Store
+   const current_user = useSelector( state => state.logged_user ); // from Redux Store
 
    const [loading,setloading]  = useState(false);
    
@@ -19,10 +23,14 @@ const ToDo = () => {
 
           const url = "http://localhost:3001/insert";
           setloading(true);
-         await Axios.post( url , {newTask: newtask})
+          await Axios.post( url , 
+            {
+              newTask:newtask
+            })
             .then( response=>{
                   try{
-                      setloading(false);
+                    FetchFromDB();
+                    setloading(false);
                   }catch(error){
                 alert(error);
               }
@@ -35,9 +43,10 @@ const ToDo = () => {
 
     const FetchFromDB = async ()=>
     {
+
       const url = "http://localhost:3001/read";
       setloading(true);
-      await Axios.get( url).then((response)=>{
+      await Axios.get(url , { params : {useremail: current_user } }).then((response)=>{
         
             try{
                   dispatch({type:'emptyList'});
@@ -50,14 +59,18 @@ const ToDo = () => {
       })
     }
     useEffect( ()=>{  // read from MongoDB on first reload
-     
-      FetchFromDB();
-
+      if(current_user == "")
+      {
+        navigate('/');
+      }else{
+         FetchFromDB();
+      }
     },[])
+
   return (
     <div className='MAIN' >
         <div className='NewTask'>
-        <NewTask NewTaskHandler = {NewTaskHandler}/>
+        <NewTask NewTaskHandler = {NewTaskHandler} />
         </div>
       {loading? 
               <div className='overlay'>
@@ -68,7 +81,8 @@ const ToDo = () => {
             <Paper  className='paper' variant="elevation" elevation={21} >
               {[...ToDoList].reverse().map((TASK)=>(
                   <div key={TASK.id} className="Display">
-                      <DisplayTask task= {TASK}/>
+                      <DisplayTask task= {TASK} FetchFromDB = {FetchFromDB}/>
+                      
                       <br/> 
                   </div>
               ))}

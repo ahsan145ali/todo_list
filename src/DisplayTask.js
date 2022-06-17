@@ -1,9 +1,26 @@
 import React from 'react'
-import { Card , CardContent , Typography } from '@material-ui/core'
+import { Card , CardContent , Typography , Button } from '@material-ui/core'
 import './DisplayTask.css'
 import TaskDate from './TaskDate'
 import ReactTimeAgo from 'react-time-ago'
-const DisplayTask = ({task}) => {
+import Axios from "axios";
+const DisplayTask = ({task , FetchFromDB}) => {
+
+  const onDeleteHandler = async () =>{
+
+    // delete from Backend
+    const url = "http://localhost:3001/delete";
+    await Axios.post( url, {id:task.id})
+            .then( response=>{
+                  try{
+                      alert('Deleted Successfully');
+                      // read again 
+                      FetchFromDB();
+                  }catch(error){
+                alert(error);
+              }
+            })
+  }
   return (
     <>
       <div className='task'>
@@ -14,6 +31,7 @@ const DisplayTask = ({task}) => {
                   <Typography variant='h6' gutterBottom color='textSecondary'> <b>Added:</b>  <ReactTimeAgo date={task.date} locale="en-US" timeStyle="twitter"/> </Typography>
             </div>
             <Typography variant='body2' color="textSecondary" > <b>Description:</b> {task.desc}  </Typography>
+            <button onClick={onDeleteHandler}>Delete</button>
           </CardContent>
       </Card>
 
