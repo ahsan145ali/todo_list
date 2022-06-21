@@ -23,7 +23,8 @@ const Navbar = () =>
                     </Typography>
                     <div className='grow'/>
                     <Button component={Link} to = '/AboutUS'>About US</Button>
-                    <Button onClick={onLogoutHandler} >LogOut</Button>
+
+                    { window.location.pathname != '/' ? <Button onClick={onLogoutHandler} >LogOut</Button> : null}
                 </Toolbar>
             </AppBar>
         </>

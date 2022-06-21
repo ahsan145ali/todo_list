@@ -4,22 +4,32 @@ import './DisplayTask.css'
 import TaskDate from './TaskDate'
 import ReactTimeAgo from 'react-time-ago'
 import Axios from "axios";
+import { useNavigate   } from 'react-router-dom';
+
 const DisplayTask = ({task , FetchFromDB}) => {
-
+  const navigate = useNavigate();
   const onDeleteHandler = async () =>{
-
-    // delete from Backend
-    const url = "http://localhost:3001/delete";
-    await Axios.post( url, {id:task.id})
-            .then( response=>{
-                  try{
-                      alert('Deleted Successfully');
-                      // read again 
-                      FetchFromDB();
-                  }catch(error){
-                alert(error);
-              }
-            })
+    const token = JSON.parse(localStorage.getItem('token'));
+    if(token == null)
+    {   
+       alert('Token Expired');
+        navigate('/');
+    }
+    else
+    {
+        // delete from Backend
+        const url = "http://localhost:3001/delete";
+        await Axios.post( url, {id:task.id})
+                .then( response=>{
+                      try{
+                          alert('Deleted Successfully');
+                          // read again 
+                          FetchFromDB();
+                      }catch(error){
+                    alert(error);
+                  }
+                })
+      }
   }
   return (
     <>

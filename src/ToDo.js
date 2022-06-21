@@ -18,24 +18,31 @@ const ToDo = () => {
    const [loading,setloading]  = useState(false);
    
     const NewTaskHandler = async (newtask) =>{
+      const token = JSON.parse(localStorage.getItem('token'));
+      if(token == null)
+      {   
+          alert('Token Expired');
+          navigate('/');
+      }
+      else{
+            dispatch({type:'addTask' , obj:newtask});
 
-        dispatch({type:'addTask' , obj:newtask});
-
-          const url = "http://localhost:3001/insert";
-          setloading(true);
-          await Axios.post( url , 
-            {
-              newTask:newtask
-            })
-            .then( response=>{
-                  try{
-                    FetchFromDB();
-                    setloading(false);
-                  }catch(error){
-                alert(error);
-              }
-            }
-            )
+              const url = "http://localhost:3001/insert";
+              setloading(true);
+              await Axios.post( url , 
+                {
+                  newTask:newtask
+                })
+                .then( response=>{
+                      try{
+                        FetchFromDB();
+                        setloading(false);
+                      }catch(error){
+                    alert(error);
+                  }
+                }
+                )
+      }
     }
     const SetToDoList = (newtask)=>{
       dispatch({type:'addfromDB' , obj:newtask});
