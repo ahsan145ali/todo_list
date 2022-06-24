@@ -8,6 +8,7 @@ import { useNavigate   } from 'react-router-dom';
 
 const DisplayTask = ({task , FetchFromDB}) => {
   const navigate = useNavigate();
+
   const onDeleteHandler = async () =>{
     const token = JSON.parse(localStorage.getItem('token'));
     if(token == null)
@@ -19,7 +20,7 @@ const DisplayTask = ({task , FetchFromDB}) => {
     {
         // delete from Backend
         const url = "http://localhost:3001/delete";
-        await Axios.post( url, {id:task.id})
+        await Axios.post( url, {id:task.id} ,  { headers: {Authorization : token._token} })
                 .then( response=>{
                       try{
                           alert('Deleted Successfully');
@@ -30,6 +31,33 @@ const DisplayTask = ({task , FetchFromDB}) => {
                   }
                 })
       }
+  }
+
+  const onUpdateHandler = async() =>
+  {  
+     const token = JSON.parse(localStorage.getItem('token'));
+     let res = prompt("Enter new Task name" , task.task)
+   
+     if(token == null)
+     {   
+        alert('Token Expired');
+         navigate('/');
+     }
+     else
+     {
+        const url = "http://localhost:3001/update";
+        await Axios.put(url , {id: task.id , newTaskName: res} , { headers: {Authorization : token._token} }).then(response =>{
+          try{
+              alert("Updated");
+              // read again 
+              FetchFromDB();
+          }
+          catch(err)
+          {
+            alert("Updated Failed");
+          }
+        })
+    }
   }
   return (
     <>
@@ -42,6 +70,7 @@ const DisplayTask = ({task , FetchFromDB}) => {
             </div>
             <Typography variant='body2' color="textSecondary" > <b>Description:</b> {task.desc}  </Typography>
             <button onClick={onDeleteHandler}>Delete</button>
+            <button style={{marginLeft:"20px"}}onClick={onUpdateHandler}>Update</button>
           </CardContent>
       </Card>
 

@@ -10,7 +10,11 @@ const saltRounds = 10;
 
 const app = express();
 app.use(express.json()) // allows to receive information from front end in json format
-app.use(cors()) // allows us to communicate with APIs we create on frontend
+const corsOptions = {
+    exposedHeaders: "Authorization"
+  };
+app.use(cors(corsOptions)) // allows us to communicate with APIs we create on frontend
+
 
 // first parameter is address of MongoDB database, second is an object
 moongose.connect('mongodb+srv://ahsan145ali:Sherry!32@tasks.rgwve1y.mongodb.net/ToDo?retryWrites=true&w=majority' , 
@@ -23,6 +27,8 @@ moongose.connect('mongodb+srv://ahsan145ali:Sherry!32@tasks.rgwve1y.mongodb.net/
 app.post("/insert" , async (req,res) =>{ // checks if a user reaches route "/insert" then performs an action
 
     const newTask = req.body.newTask;
+    //const Token = req.body.headers["Authorization"];
+    //console.log(Token);
     const Task_Data = new ToDoModel({
         ID : newTask.id,
         TaskName : newTask.task,
@@ -34,17 +40,39 @@ app.post("/insert" , async (req,res) =>{ // checks if a user reaches route "/ins
 
     try{
         await Task_Data.save();
-        console.log("Success");
+        
         res.send("Data Inserted");
+        
     }catch(error){
-        console.log("ERROR In Insert: " + error);
+        
+    }
+})
+
+app.put("/update" , async (req,res) =>{ // checks if a user reaches route "/insert" then performs an action
+
+    const newTaskName = req.body.newTaskName;
+    const ID = req.body.id;
+    //const Token = req.body.headers["Authorization"];
+    //console.log(Token);
+    
+   
+    try{
+        await ToDoModel.findById(ID , (err,updatedTaskName)=>{
+            updatedTaskName.TaskName = newTaskName;
+            updatedTaskName.save();
+           
+        })
+        res.send("Updated");
+        
+    }catch(error){
+        res.send(error);
     }
 })
 
 app.get("/read" , async (req,res) =>{ // checks if a user reaches route "/read" then performs an action
     
     const email = req.query.useremail;
-    console.log(" email: " + email);
+    
     // we want to read everything from DB so passing {} empty object as 1 param
     ToDoModel.find({'User' : email},(err,result)=>{
         if(err){
@@ -76,7 +104,7 @@ app.post("/signup" , async(req,res)=>{
     
     try{
         await user_data.save();
-        console.log("Success");
+        
         res.send("Data Inserted");
     }catch(error){
         res.send("err");
@@ -99,7 +127,7 @@ app.post("/login" , async(req , res) => {
         else
         {
             // User Found
-            console.log("Found")
+            
 
             if(await bcrypt.compare(pass,user.Password)){
                 token = jwt.sign({id:user._id,username:user.Email},'secret',{expiresIn : '1h'});

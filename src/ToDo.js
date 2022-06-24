@@ -32,7 +32,7 @@ const ToDo = () => {
               await Axios.post( url , 
                 {
                   newTask:newtask
-                })
+                } , { headers: {"Authorization" : token._token} } )
                 .then( response=>{
                       try{
                         FetchFromDB();
@@ -50,10 +50,11 @@ const ToDo = () => {
 
     const FetchFromDB = async ()=>
     {
-
+      const token = JSON.parse(localStorage.getItem('token'));
       const url = "http://localhost:3001/read";
       setloading(true);
-      await Axios.get(url , { params : {useremail: current_user } }).then((response)=>{
+      await Axios.get(url , { params : {useremail: current_user } } ,  { headers: {"Authorization" : token} })
+      .then((response)=>{
         
             try{
                   dispatch({type:'emptyList'});
